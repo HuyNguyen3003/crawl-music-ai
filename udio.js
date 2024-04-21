@@ -21,6 +21,9 @@ const delay = async (time) => {
 }
 
 
+/**
+ * crawl data from udio.com and save to file json
+ */
 const handleCrawData = async (pageParam, pageSize) => {
     try {
         let udio = {}
@@ -61,6 +64,9 @@ const handleCrawData = async (pageParam, pageSize) => {
     }
 };
 
+/**
+ * loop function crawl data
+ */
 const loopCrawl = async (pageParam = 0, pageSize = 18, time = 2000) => {
     let status = 1;
     while (status) {
@@ -79,4 +85,8 @@ const loopCrawl = async (pageParam = 0, pageSize = 18, time = 2000) => {
 
     }
 }
-loopCrawl(0, 18);
+
+
+// ple check file dataCrawl/udio.json find last index in obj ex: "number a-number b"
+// run loopCrawl(number a + 18)
+//loopCrawl(0);

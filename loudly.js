@@ -20,6 +20,10 @@ const delay = async (time) => {
 }
 
 
+
+/**
+ * crawl data from loudly.com and save to file json
+ */
 const handleCrawData = async (page) => {
     try {
         let loudly = {}
@@ -51,6 +55,10 @@ const handleCrawData = async (page) => {
     }
 };
 
+
+/**
+ * loop function crawl data
+ */
 const loopCrawl = async (page = 1, time = 2000) => {
     let status = 1;
     while (status) {
@@ -69,6 +77,9 @@ const loopCrawl = async (page = 1, time = 2000) => {
 
     }
 }
-loopCrawl(1);
+
+// ple check file dataCrawl/loudly.json and find last index in obj ex: "number a"
+// run loopCrawl(number a + 1)
+//loopCrawl(1);
 
 
