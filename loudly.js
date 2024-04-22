@@ -27,8 +27,8 @@ const delay = async (time) => {
 const handleCrawData = async (page) => {
     try {
         let loudly = {}
-        if (fs.existsSync(`dataCrawl/loudly.json`)) {
-            loudly = await JSON.parse(fs.readFileSync(`dataCrawl/loudly.json`, 'utf8'));
+        if (fs.existsSync(`data/loudly.json`)) {
+            loudly = await JSON.parse(fs.readFileSync(`data/loudly.json`, 'utf8'));
             loudly = loudly[`loudly`];
         }
 
@@ -46,7 +46,7 @@ const handleCrawData = async (page) => {
         });
 
         loudly[`${page}`] = handleData;
-        fs.writeFileSync(`dataCrawl/loudly.json`, JSON.stringify({ loudly }));
+        fs.writeFileSync(`data/loudly.json`, JSON.stringify({ loudly }));
         console.log(`write :${page} is successful!`);
 
 
@@ -78,8 +78,8 @@ const loopCrawl = async (page = 1, time = 2000) => {
     }
 }
 
-// ple check file dataCrawl/loudly.json and find last index in obj ex: "number a"
+// ple check file data/loudly.json and find last index in obj ex: "number a"
 // run loopCrawl(number a + 1)
-//loopCrawl(1);
+loopCrawl(12);
 
 

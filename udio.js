@@ -27,8 +27,8 @@ const delay = async (time) => {
 const handleCrawData = async (pageParam, pageSize) => {
     try {
         let udio = {}
-        if (fs.existsSync(`dataCrawl/udio.json`)) {
-            udio = await JSON.parse(fs.readFileSync(`dataCrawl/udio.json`, 'utf8'));
+        if (fs.existsSync(`data/udio.json`)) {
+            udio = await JSON.parse(fs.readFileSync(`data/udio.json`, 'utf8'));
             udio = udio[`udio`];
         }
 
@@ -49,13 +49,13 @@ const handleCrawData = async (pageParam, pageSize) => {
 
         let resData = await response.data.data;
         if (resData.length < 1) throw new Error('Data is empty!');
-        console.log(resData)
         const handleData = await resData.map((item) => {
-            return { title: item.title, lyrics: item.lyrics, song_path: item.song_path };
+            return { title: item.title, lyrics: item.lyrics, song_path: item.song_path, image_path: item.image_path };
         });
+        console.log(handleData)
 
         udio[`${pageParam}-${pageSize}`] = handleData;
-        fs.writeFileSync(`dataCrawl/udio.json`, JSON.stringify({ udio }));
+        fs.writeFileSync(`data/udio.json`, JSON.stringify({ udio }));
         console.log(`write :${pageParam}-${pageSize} is successful!`);
 
 
@@ -67,26 +67,27 @@ const handleCrawData = async (pageParam, pageSize) => {
 /**
  * loop function crawl data
  */
-const loopCrawl = async (pageParam = 0, pageSize = 18, time = 2000) => {
+const loopCrawl = async (pageParam = 0, pageSize = 100, time = 2000) => {
     let status = 1;
-    while (status) {
+    while (status && pageParam <= 200) {
         await delay(time)
         try {
             console.log(`delay ${time} milisecon`);
 
             await delay(5000)
             await handleCrawData(pageParam, pageSize);
-            pageParam = pageParam + pageSize;
+            pageParam = pageParam + status;
         } catch (error) {
             console.error(error);
             status = 0
         }
 
 
+
     }
 }
 
 
-// ple check file dataCrawl/udio.json find last index in obj ex: "number a-number b"
-// run loopCrawl(number a + 18)
-//loopCrawl(0);
+// ple check file data/udio.json find last index in obj ex: "number a-number b"
+// run loopCrawl(number a + 1)
+loopCrawl(0);
