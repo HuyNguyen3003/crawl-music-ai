@@ -17,6 +17,7 @@ const pathUdioImage = 'data-local/image';
 
 const delay = async (time) => {
     setTimeout(() => {
+        console.log('Delay', time);
 
     }, time);
 }
@@ -24,57 +25,58 @@ const invalidCharsRegex = /[/\\?%*:|"<>]/g;
 
 
 //Hàm tải tệp âm thanh và hình ảnh
-// async function downloadFiles(a, b) {
+async function downloadFiles(a, b) {
 
-//     while (a <= 200) {
-//         const data = udioData[`${a}-${b}`];
+    while (a <= 200) {
+        const data = udioData[`${a}-${b}`];
 
-//         for (let item of data) {
-//             const sanitizedTitle = item.title.replace(invalidCharsRegex, '');
-//             if (fs.existsSync(`${pathUdioMusic}/${sanitizedTitle}.mp3`)) {
-//                 continue;
-//             }
-//             try {
-//                 const songFilename = await path.basename(`${sanitizedTitle}.mp3`);
-//                 const songPath = await path.join(pathUdioMusic, songFilename);
-//                 const songStream = await fs.createWriteStream(songPath);
-//                 const response = await axios({
-//                     method: 'get',
-//                     url: `${item.song_path}`,
-//                     responseType: 'stream'
-//                 });
+        for (let item of data) {
+            const sanitizedTitle = item.title.replace(invalidCharsRegex, '');
+            if (fs.existsSync(`${pathUdioMusic}/${sanitizedTitle}.mp3`)) {
+                continue;
+            }
+            try {
+                const songFilename = await path.basename(`${sanitizedTitle}.mp3`);
+                const songPath = await path.join(pathUdioMusic, songFilename);
+                const songStream = await fs.createWriteStream(songPath);
+                const response = await axios({
+                    method: 'get',
+                    url: `${item.song_path}`,
+                    responseType: 'stream'
+                });
 
-//                 response.data.pipe(songStream);
-//             } catch (error) {
-//                 console.error(`Error downloading ${songFilename}: ${error}`);
-//             }
+                response.data.pipe(songStream);
+            } catch (error) {
+                console.error(`Error downloading ${songFilename}: ${error}`);
+            }
 
-//             try {
-//                 // Tải hình ảnh
-//                 const imageFilename = await path.basename(`${sanitizedTitle}.jpg`);
-//                 const imagePath = await path.join(pathUdioImage, imageFilename);
-//                 const imageStream = await fs.createWriteStream(imagePath);
-//                 await axios({
-//                     method: 'get',
-//                     url: `${item.image_path}`,
-//                     responseType: 'stream'
-//                 }).then(response => {
-//                     response.data.pipe(imageStream);
-//                     console.log(`${imageFilename} downloaded successfully!`);
-//                 }).catch(error => {
-//                     console.error(`Error downloading ${imageFilename}: ${error}`);
-//                 });
-//             } catch (e) {
-//                 console.log(e);
-//             }
+            try {
+                // Tải hình ảnh
+                const imageFilename = await path.basename(`${sanitizedTitle}.jpg`);
+                const imagePath = await path.join(pathUdioImage, imageFilename);
+                const imageStream = await fs.createWriteStream(imagePath);
+                await axios({
+                    method: 'get',
+                    url: `${item.image_path}`,
+                    responseType: 'stream'
+                }).then(response => {
+                    response.data.pipe(imageStream);
+                    console.log(`${imageFilename} downloaded successfully!`);
+                }).catch(error => {
+                    console.error(`Error downloading ${imageFilename}: ${error}`);
+                });
+            } catch (e) {
+                console.log(e);
+            }
 
 
-//         }
-//         a = a + 1;
-//         console.log(`${a}-${b}`)
+        }
+        a = a + 1;
+        if (a === 35) a = 36;
+        console.log(`${a}-${b}`)
 
-//     }
-// }
+    }
+}
 //downloadFiles(36, 100);
 
 // /////////////////////////////
@@ -123,60 +125,60 @@ const invalidCharsRegex = /[/\\?%*:|"<>]/g;
 
 
 
-// const headersAudio = {
-//     "accept": "application/json, text/javascript, */*; q=0.01",
-//     "accept-language": "vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5",
-//     "cache-control": "no-cache",
-//     "content-type": "multipart/form-data; boundary=----WebKitFormBoundary9nDWmkyf8UnV0pBg",
-//     "pragma": "no-cache",
-//     "sec-ch-ua": "\"Google Chrome\";v=\"123\", \"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"123\"",
-//     "sec-ch-ua-mobile": "?0",
-//     "sec-ch-ua-platform": "\"Linux\"",
-//     "sec-fetch-dest": "empty",
-//     "sec-fetch-mode": "cors",
-//     "sec-fetch-site": "same-origin",
-//     "x-requested-with": "XMLHttpRequest",
-//     "cookie": `${cookieLogin[0]};${cookieLogin[1]}`,
-//     "Referer": "https://ari-sound.aurumai.io/upload-single",
-//     "Referrer-Policy": "strict-origin-when-cross-origin"
-// }
+const headersAudio = {
+    "accept": "application/json, text/javascript, */*; q=0.01",
+    "accept-language": "vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5",
+    "cache-control": "no-cache",
+    "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryySBzTyCmFKsLJOAj",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Google Chrome\";v=\"123\", \"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"123\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": "\"Linux\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-requested-with": "XMLHttpRequest",
+    "cookie": "_us=1713934603; PHPSESSID=2c9c0f3829bde1c4f93e9f50e3e52598; _uads=a%3A2%3A%7Bs%3A4%3A%26quot%3Bdate%26quot%3B%3Bi%3A1713923503%3Bs%3A5%3A%26quot%3Buaid_%26quot%3B%3Ba%3A0%3A%7B%7D%7D; mode=night; __stripe_mid=e5c368b4-730f-4a49-a47c-a68e96978006250e0f; __stripe_sid=6ea98296-5b2f-4c74-8b2e-db5d675627b7969903; user_id=cda2af85e14a915cb170e6f5c8d3314ab8c78dc11713848208c69de82ba341aa073bc47e7bbcee8d96; _us=1713934616",
+    "Referer": "https://ari-sound.aurumai.io/upload-single",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+}
 
-// const headersImage = {
-//     "accept": "*/*",
-//     "accept-language": "vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5",
-//     "cache-control": "no-cache",
-//     "content-type": "multipart/form-data; boundary=----WebKitFormBoundary90iHwYubuQVViGqH",
-//     "pragma": "no-cache",
-//     "sec-ch-ua": "\"Google Chrome\";v=\"123\", \"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"123\"",
-//     "sec-ch-ua-mobile": "?0",
-//     "sec-ch-ua-platform": "\"Linux\"",
-//     "sec-fetch-dest": "empty",
-//     "sec-fetch-mode": "cors",
-//     "sec-fetch-site": "same-origin",
-//     "x-requested-with": "XMLHttpRequest",
-//     "cookie": `${cookieLogin[0]};${cookieLogin[1]}`,
-//     "Referer": "https://ari-sound.aurumai.io/upload-single",
-//     "Referrer-Policy": "strict-origin-when-cross-origin"
-// }
+const headersImage = {
+    "accept": "*/*",
+    "accept-language": "vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5",
+    "cache-control": "no-cache",
+    "content-type": "multipart/form-data; boundary=----WebKitFormBoundary45XZiIFWSTJHB62M",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Google Chrome\";v=\"123\", \"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"123\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": "\"Linux\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-requested-with": "XMLHttpRequest",
+    "cookie": "_us=1713934603; PHPSESSID=2c9c0f3829bde1c4f93e9f50e3e52598; _uads=a%3A2%3A%7Bs%3A4%3A%26quot%3Bdate%26quot%3B%3Bi%3A1713923503%3Bs%3A5%3A%26quot%3Buaid_%26quot%3B%3Ba%3A0%3A%7B%7D%7D; mode=night; __stripe_mid=e5c368b4-730f-4a49-a47c-a68e96978006250e0f; __stripe_sid=6ea98296-5b2f-4c74-8b2e-db5d675627b7969903; user_id=cda2af85e14a915cb170e6f5c8d3314ab8c78dc11713848208c69de82ba341aa073bc47e7bbcee8d96; _us=1713934616",
+    "Referer": "https://ari-sound.aurumai.io/upload-single",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+}
 
-// const headerSubmit = {
-//     "accept": "*/*",
-//     "accept-language": "vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5",
-//     "cache-control": "no-cache",
-//     "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-//     "pragma": "no-cache",
-//     "sec-ch-ua": "\"Google Chrome\";v=\"123\", \"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"123\"",
-//     "sec-ch-ua-mobile": "?0",
-//     "sec-ch-ua-platform": "\"Linux\"",
-//     "sec-fetch-dest": "empty",
-//     "sec-fetch-mode": "cors",
-//     "sec-fetch-site": "same-origin",
-//     "x-requested-with": "XMLHttpRequest",
-//     "cookie": `${cookieLogin[0]};${cookieLogin[1]}`,
-//     "Referer": "https://ari-sound.aurumai.io/upload-single",
-//     "Referrer-Policy": "strict-origin-when-cross-origin"
-// }
 
+const headerSubmit = {
+    "accept": "*/*",
+    "accept-language": "vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5",
+    "cache-control": "no-cache",
+    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Google Chrome\";v=\"123\", \"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"123\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": "\"Linux\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-requested-with": "XMLHttpRequest",
+    "cookie": "_us=1713934603; PHPSESSID=2c9c0f3829bde1c4f93e9f50e3e52598; _uads=a%3A2%3A%7Bs%3A4%3A%26quot%3Bdate%26quot%3B%3Bi%3A1713923503%3Bs%3A5%3A%26quot%3Buaid_%26quot%3B%3Ba%3A0%3A%7B%7D%7D; mode=night; __stripe_mid=e5c368b4-730f-4a49-a47c-a68e96978006250e0f; __stripe_sid=6ea98296-5b2f-4c74-8b2e-db5d675627b7969903; user_id=cda2af85e14a915cb170e6f5c8d3314ab8c78dc11713848208c69de82ba341aa073bc47e7bbcee8d96; _us=1713934616",
+    "Referer": "https://ari-sound.aurumai.io/upload-single",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+}
 // ////// 1. Read the audio file as binary and upload it to the server
 // ///// 2. Read the image file as binary and upload it to the server
 // ///// 3. Submit the song details to the server
@@ -192,27 +194,29 @@ function readFileAsync(filePath) {
 }
 
 
-async function uploadSong(username) {
-    const temp = 0;
+
+async function uploadSong() {
+    let temp = 0;
     for (let index in pathupload) {
         // Replace 'path_to_audio_file' with the actual path to your audio file
         const audioFilePath = `data-local/music/${index}.mp3`;
+
         const audioFileData = await readFileAsync(audioFilePath);
         // Replace 'path_to_image_file' with the actual path to your image file
-        const imageFilePath = `data-local/image/${indexs}.jpg`
+        const imageFilePath = `data-local/image/${index}.jpg`
         const imageFileData = await readFileAsync(imageFilePath);
 
 
         const formDataAdio = new FormData();
         const blobAudio = new Blob([audioFileData], { type: 'audio/mp3' }); // Creating a Blob object
-        formDataAdio.append('audio', blobAudio, 'Neon Shadows ext v2.1.1.mp3'); // Appending the Blob to FormData
+        formDataAdio.append('audio', blobAudio, `${index}.mp3`); // Appending the Blob to FormData
 
         const formDataImage = new FormData();
         const blobImage = new Blob([imageFileData], { type: "image/png" }); // Creating a Blob object
-        formDataImage.append('thumbnail', blobImage, 'demo.jpg'); // Appending the Blob to FormData
+        formDataImage.append('thumbnail', blobImage, `${index}.jpg`); // Appending the Blob to FormData
 
         try {
-            const responseAudio = await axios.post('https://ari-sound.aurumai.io/endpoints/upload-song?hash_id=f0fe6f5cdb3f0e58a4fd8f8030b2eb9620b2fbfc', formDataAdio, {
+            const responseAudio = await axios.post('https://ari-sound.aurumai.io/endpoints/upload-song?hash_id=ca6d483a93b363d48d859a7af88549f462d94ca5', formDataAdio, {
                 headers: headersAudio
             });
 
@@ -223,12 +227,15 @@ async function uploadSong(username) {
                 console.error('Failed to upload song:', response.statusText);
             }
 
-            const responseImage = await axios.post('https://ari-sound.aurumai.io/endpoints/upload-thumbnail?hash_id=f0fe6f5cdb3f0e58a4fd8f8030b2eb9620b2fbfc', formDataImage, {
+
+
+            const responseImage = await axios.post('https://ari-sound.aurumai.io/endpoints/upload-thumbnail?hash_id=ca6d483a93b363d48d859a7af88549f462d94ca5', formDataImage, {
                 headers: headersImage
             });
 
+
             if (responseImage.status === 200) {
-                console.log('Image uploaded successfully!');
+                console.log('Image successfully!');
                 console.log("data::", responseImage.data);
             } else {
                 console.error('Failed to upload song:', response.statusText);
@@ -248,19 +255,22 @@ async function uploadSong(username) {
             formData.append('display_embed', '1');
             formData.append('age_restriction', '0');
             formData.append('song-location', `${responseAudio.data.file_path}`);
-            formData.append('song-thumbnail', `${responseImage.data.thumbnail} `);
-            const response = await axios.post('https://ari-sound.aurumai.io/endpoints/submit-song?hash_id=f0fe6f5cdb3f0e58a4fd8f8030b2eb9620b2fbfc', formData, {
+            formData.append('song-thumbnail', `${responseImage.data.thumbnail}`);
+
+
+
+            const response = await axios.post('https://ari-sound.aurumai.io/endpoints/submit-song?hash_id=ca6d483a93b363d48d859a7af88549f462d94ca5', formData, {
                 headers: headerSubmit
             });
 
             if (response.status === 200) {
                 console.log('submit song sussessfully!');
                 console.log("data::", response.data);
+
             } else {
                 console.error('Failed to upload song:', response.statusText);
             }
-            pathupload[index].status = 1;
-            pathupload[index].username = username;
+
 
         } catch (error) {
             console.error('Error uploading song:', error);
@@ -269,13 +279,15 @@ async function uploadSong(username) {
 
 
         temp = temp + 1;
-        if (temp === 99) break;
+        //if (temp === 19) break;
+
+
     }
-    fs.writeFileSync("data-local/data-upload.json", JSON.stringify(pathupload));
+
 
 }
 
-// Call the function to upload the song
+// // Call the function to upload the song
 uploadSong();
 
 
